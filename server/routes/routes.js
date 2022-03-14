@@ -6,6 +6,7 @@ const {
   location,
   pages: {
     homeHTML,
+    controllerHTML,
   },
 } = config;
 
@@ -26,6 +27,14 @@ const controller = new Controller()
     const {
       stream,
     } = await controller.getFileStream(homeHTML);
+
+    return stream.pipe(response);
+  };
+
+  if(method === 'GET' && url === '/controller') {
+    const {
+      stream,
+    } = await controller.getFileStream(controllerHTML);
 
     return stream.pipe(response);
   };

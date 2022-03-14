@@ -7,6 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "17"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mbmauriciojr/semana-javascript-expert06.git"

@@ -39,10 +39,36 @@ const controller = new Controller()
     return stream.pipe(response);
   };
 
-  return response.end('Hello');
+  //files
+  if(method === 'GET') {
+    const {
+      stream,
+      pipe
+    } = await controller.getFileStream(url);
+
+    return stream.pipe(response);
+  };
+
+  response.writeHead(404)
+  return response.end();
+};
+
+function handleError(error, response) {
+  if(error.message.includes('ENOENT')) {
+    logger.warn(`asset not found ${error.stack}`);
+
+    response.writeHead(404);
+
+    return response.end();
+  };
+
+  logger.error(`caught error on API ${error.stack}`);
+  response.writeHead(500);
+
+  return response.end();
 };
 
 export function handler(request, response) {
   return routes(request, response)
-    .catch(error => logger.error(`Algo deu eerrado: ${error.stack}`));
+    .catch(error => handleError(error, response));
 };

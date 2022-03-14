@@ -4,7 +4,8 @@ import { fileURLToPath } from 'url';
 // Pega o nome da pasta de acordo com o caminho de url mandado.
 const currentDir = dirname(fileURLToPath(import.meta.url));
 
-const root = join(currentDir, '../');
+// Tive que colocar mais um ../ pois o meu arquivo config está dentro de um diretório
+const root = join(currentDir, '../../');
 
 const audioDirectory = join(root, 'audio');
 const publicDirectory = join(root, 'public');

@@ -8,6 +8,9 @@ const {
     homeHTML,
     controllerHTML,
   },
+  constants: {
+    CONTENT_TYPE,
+  }
 } = config;
 
 async function routes(request, response) {
@@ -43,8 +46,16 @@ const controller = new Controller()
   if(method === 'GET') {
     const {
       stream,
-      pipe
+      type
     } = await controller.getFileStream(url);
+
+    const contentType = CONTENT_TYPE[type];
+
+    if(contentType) {
+      response.writeHead(200, {
+        'Content-Type': CONTENT_TYPE[type],
+      });
+    };
 
     return stream.pipe(response);
   };

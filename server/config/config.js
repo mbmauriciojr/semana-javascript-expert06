@@ -27,4 +27,11 @@ export default {
     // Quando bater somente no /, ele irá redirecionar para /home
     home: '/home'
   },
+  constants: {
+    CONTENT_TYPE: {
+      '.html': 'text/html',
+      '.css': 'text/css',
+      '.js': 'text/javascript',
+    },
+  }
 };

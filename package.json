@@ -1,0 +1,21 @@
+{
+  "name": "semana-javascript-expert06",
+  "version": "1.0.0",
+  "description": "Seja bem vindo(a) à sexta Semana Javascript Expert. Este é o código inicial para iniciar nossa jornada.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mbmauriciojr/semana-javascript-expert06.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mbmauriciojr/semana-javascript-expert06/issues"
+  },
+  "homepage": "https://github.com/mbmauriciojr/semana-javascript-expert06#readme"
+}

@@ -163,7 +163,16 @@ describe('#Routes - test site for api response', () => {
     expect(params.response.writeHead).not.toHaveBeenCalled();
   });
 
-  test.todo('GET /unknown - given an inexistent route it should response with 404');
+  test('GET /unknown - given an inexistent route it should response with 404', async () => {
+    const params = TestUtil.defaultHandleParams();
+    params.request.method = 'GET';
+    params.request.url = '/unknown'
+
+    await handler(...params.values());
+
+    expect(params.response.writeHead).toHaveBeenCalledWith(404);
+    expect(params.response.end).toHaveBeenCalled();
+  });
 
   describe('exceptions', () => {
   test.todo('given inexistent file it should respond with 404');

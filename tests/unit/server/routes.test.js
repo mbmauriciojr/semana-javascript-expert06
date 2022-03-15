@@ -6,6 +6,7 @@ import {
   beforeEach 
 } from '@jest/globals';
 import config from '../../../server/config/config.js';
+import { Controller } from '../../../server/controller/controller.js';
 import { handler } from '../../../server/routes/routes.js';
 import TestUtil from '../_util/testUtil.js';
 
@@ -38,7 +39,31 @@ describe('#Routes - test site for api response', () => {
     expect(params.response.end).toHaveBeenCalled();
   });
 
-  test.todo(`GET /home - should response with ${pages.homeHTML} file stream`);
+  test(`GET /home - should response with ${pages.homeHTML} file stream`,async () => {
+    const params = TestUtil.defaultHandleParams();
+    params.request.method = 'GET';
+    params.request.url = '/home';
+
+    const mockFileStream = TestUtil.generateReadableStream(['data']);
+
+    jest.spyOn(
+      Controller.prototype,
+      Controller.prototype.getFileStream.name,
+    ).mockResolvedValue({
+      stream: mockFileStream,
+    });
+
+    jest.spyOn(
+      mockFileStream,
+      "pipe"
+    ).mockReturnValue();
+
+    await handler(...params.values());
+
+    expect(Controller.prototype.getFileStream).toBeCalledWith(pages.homeHTML);
+
+    expect(mockFileStream.pipe).toHaveBeenCalledWith(params.response);
+  });
 
   test.todo(`GET /controller - should response with ${pages.controllerHTML} file stream`);
 

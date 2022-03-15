@@ -175,8 +175,22 @@ describe('#Routes - test site for api response', () => {
   });
 
   describe('exceptions', () => {
-  test.todo('given inexistent file it should respond with 404');
+    test('given inexistent file it should respond with 404', async () => {
+      const params = TestUtil.defaultHandleParams();
+      params.request.method = 'GET';
+      params.request.url = '/index.png'
 
-  test.todo('given an error it should respond with 500');
-  });
+      jest.spyOn(
+        Controller.prototype,
+        Controller.prototype.getFileStream.name,
+      ).mockRejectedValue(new Error('Error: ENOENT: no such file or directy'));
+
+      await handler(...params.values());
+
+      expect(params.response.writeHead).toHaveBeenCalledWith(404);
+      expect(params.response.end).toHaveBeenCalled();
+    });
+
+    test.todo('given an error it should respond with 500');
+    });
 });

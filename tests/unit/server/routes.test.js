@@ -3,7 +3,7 @@ import {
   expect, 
   describe, 
   test, 
-  beforeEach 
+  beforeEach,
 } from '@jest/globals';
 import config from '../../../server/config/config.js';
 import { Controller } from '../../../server/controller/controller.js';
@@ -19,7 +19,7 @@ const {
 
 describe('#Routes - test site for api response', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
     jest.clearAllMocks();
   });
 
@@ -39,7 +39,7 @@ describe('#Routes - test site for api response', () => {
     expect(params.response.end).toHaveBeenCalled();
   });
 
-  test(`GET /home - should response with ${pages.homeHTML} file stream`,async () => {
+  test(`GET /home - should response with ${pages.homeHTML} file stream`, async () => {
     const params = TestUtil.defaultHandleParams();
     params.request.method = 'GET';
     params.request.url = '/home';
@@ -65,7 +65,31 @@ describe('#Routes - test site for api response', () => {
     expect(mockFileStream.pipe).toHaveBeenCalledWith(params.response);
   });
 
-  test.todo(`GET /controller - should response with ${pages.controllerHTML} file stream`);
+  test(`GET /controller - should response with ${pages.controllerHTML} file stream`, async () => {
+    const params = TestUtil.defaultHandleParams();
+    params.request.method = 'GET';
+    params.request.url = '/controller';
+
+    const mockFileStream = TestUtil.generateReadableStream(['data']);
+
+    jest.spyOn(
+      Controller.prototype,
+      Controller.prototype.getFileStream.name,
+    ).mockResolvedValue({
+      stream: mockFileStream,
+    });
+
+    jest.spyOn(
+      mockFileStream,
+      "pipe"
+    ).mockReturnValue();
+
+    await handler(...params.values());
+
+    expect(Controller.prototype.getFileStream).toBeCalledWith(pages.controllerHTML);
+
+    expect(mockFileStream.pipe).toHaveBeenCalledWith(params.response);
+  });
 
   test.todo('GET /file.ext - should response with file stream');
 
